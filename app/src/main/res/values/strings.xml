@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">QLDA</string>
+    <string name="title_activity_m4__man_hinh_chi_tiet">M4_ManHinhChiTiet</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+</resources>
