@@ -17,6 +17,7 @@ import com.example.qlda.sql.SQLiteOpenHelper;
 import java.util.List;
 
 public class M3_DangKyActivity extends BaseActivity {
+    //Hoàng Bá Long
     private long timeBack;
     private CheckBox ckbDieuKhoan;
     private EditText edtPass, edtPassCF, edtUserName;
