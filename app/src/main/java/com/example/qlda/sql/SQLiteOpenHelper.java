@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.Nullable;
 
+import com.example.qlda.model.Car;
 import com.example.qlda.model.User;
 
 import java.io.File;
@@ -34,6 +35,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
         }
         this.mContext = context;
     }
+
     public void createDataBase() {
         //If the database does not exist, copy it from the assets.
 
@@ -100,7 +102,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                users.add(new User(cursor.getString(1),cursor.getString(2),cursor.getInt(0)));
+                users.add(new User(cursor.getString(1), cursor.getString(2), cursor.getInt(0)));
                 cursor.moveToNext();
             }
             cursor.close();
@@ -109,13 +111,31 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
     }
 
     //Thêm tài khoản
-    public void insertUser(User user){
+    public void insertUser(User user) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("numberPhone",user.getUserName());
-        contentValues.put("passWord",user.getPassWord());
-        sqLiteDatabase.insert("User",null,contentValues);
+        contentValues.put("numberPhone", user.getUserName());
+        contentValues.put("passWord", user.getPassWord());
+        sqLiteDatabase.insert("User", null, contentValues);
         sqLiteDatabase.close();
+    }
+
+    //Lấy danh sách xe
+    public List<Car> getAllCar() {
+        List<Car> users = new ArrayList<>();
+        String SELECT = "SELECT * FROM Car";
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery(SELECT, null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                users.add(new Car(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getInt(3), cursor.getString(4), cursor.getString(5), cursor.getString(6)));
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return users;
     }
 
 
