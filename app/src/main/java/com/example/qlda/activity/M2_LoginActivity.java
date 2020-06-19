@@ -68,7 +68,9 @@ public class M2_LoginActivity extends BaseActivity {
         }
         int index=users.indexOf(new User(edtUserName.getText().toString(), edtPass.getText().toString()));
         if (index>=0&&users.get(index).getPassWord().equals(edtPass.getText().toString())) {
-            sendMess(this, "Đăng nhập thành công!");
+            Intent intent=new Intent(M2_LoginActivity.this,M4_HomeActivity.class);
+            intent.putExtra("idUser",users.get(index).getId());
+            startActivity(intent);
         } else {
             sendMess(this, "Sai tên đăng nhập hoặc mật khẩu.");
         }

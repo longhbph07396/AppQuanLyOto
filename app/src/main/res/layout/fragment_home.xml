@@ -26,9 +26,9 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/imgBtnSeachHome"
+            android:layout_width="15dp"
+            android:layout_height="19dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:background="#00FFFFFF"
@@ -37,8 +37,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/icon_seach" />
 
-        <EditText
-            android:id="@+id/editText"
+        <AutoCompleteTextView
+            android:id="@+id/autoTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

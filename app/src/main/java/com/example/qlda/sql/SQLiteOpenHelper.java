@@ -130,12 +130,48 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                users.add(new Car(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getInt(3), cursor.getString(4), cursor.getString(5), cursor.getString(6)));
+                users.add(new Car(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getInt(3), cursor.getString(4), cursor.getString(5), 0));
                 cursor.moveToNext();
             }
             cursor.close();
         }
         return users;
+    }
+
+
+    //Lấy danh sách xe yêu thích của một user
+    public List<Car> getAllCarFavourite(int idUser) {
+        List<Car> users = new ArrayList<>();
+        String SELECT = "SELECT * FROM Car,CarFavourite WHERE Car.id=CarFavourite.idCar AND CarFavourite.idUser=" + idUser;
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery(SELECT, null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                users.add(new Car(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getInt(3), cursor.getString(4), cursor.getString(5), cursor.getInt(6)));
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return users;
+    }
+
+
+    //Thêm tài xe vào danh sách yêu thích
+    public void addCarFavourite(Car car, int idUser) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("idCar", car.getId());
+        contentValues.put("idUser", idUser);
+        sqLiteDatabase.insert("CarFavourite", null, contentValues);
+        sqLiteDatabase.close();
+    }
+
+    //Xóa xe ra khỏi danh sách yêu thích
+    public void delCarFavourite(int id) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        sqLiteDatabase.delete("CarFavourite", "id=" + id, null);
     }
 
 

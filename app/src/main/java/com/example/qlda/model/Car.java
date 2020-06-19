@@ -1,19 +1,37 @@
 package com.example.qlda.model;
 
-public class Car {
-    private int id, namSX, anh, gia;
-    private String tenXe, mauXe, thongSo;
+import androidx.annotation.Nullable;
 
-    public Car(int id, int namSX, int anh, int gia, String tenXe, String mauXe, String thongSo) {
+public class Car {
+    private int id, namSX, anh[], gia, idFavourite;
+    private String tenXe, thongSo;
+
+    public Car(int id, int namSX, int anh, int gia, String tenXe, String thongSo, int idFavourite) {
         this.id = id;
         this.namSX = namSX;
-        this.anh = anh;
         this.gia = gia;
         this.tenXe = tenXe;
-        this.mauXe = mauXe;
         this.thongSo = thongSo;
+        this.anh = new int[3];
+        this.idFavourite = idFavourite;
+        this.anh[0] = anh;
     }
 
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj instanceof Car) {
+            return id == ((Car) obj).getId();
+        }
+        return super.equals(obj);
+    }
+
+    public int getIdFavourite() {
+        return idFavourite;
+    }
+
+    public void setIdFavourite(int idFavourite) {
+        this.idFavourite = idFavourite;
+    }
 
     public int getId() {
         return id;
@@ -31,11 +49,11 @@ public class Car {
         this.namSX = namSX;
     }
 
-    public int getAnh() {
+    public int[] getAnh() {
         return anh;
     }
 
-    public void setAnh(int anh) {
+    public void setAnh(int[] anh) {
         this.anh = anh;
     }
 
@@ -55,13 +73,6 @@ public class Car {
         this.tenXe = tenXe;
     }
 
-    public String getMauXe() {
-        return mauXe;
-    }
-
-    public void setMauXe(String mauXe) {
-        this.mauXe = mauXe;
-    }
 
     public String getThongSo() {
         return thongSo;
