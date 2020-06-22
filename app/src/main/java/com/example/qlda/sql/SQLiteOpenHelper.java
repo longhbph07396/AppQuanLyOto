@@ -110,6 +110,25 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
         return users;
     }
 
+
+    //Lấy tài khoản đang đăng nhập
+    public User getUser(int idUser) {
+        User users = null;
+        String SELECT = "SELECT * FROM User WHERE User.id=" + idUser;
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery(SELECT, null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                users=new User(cursor.getString(1),cursor.getString(2),cursor.getInt(0));
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return users;
+    }
+
     //Thêm tài khoản
     public void insertUser(User user) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
@@ -117,6 +136,16 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
         contentValues.put("numberPhone", user.getUserName());
         contentValues.put("passWord", user.getPassWord());
         sqLiteDatabase.insert("User", null, contentValues);
+        sqLiteDatabase.close();
+    }
+
+
+    //Đổi mật khẩu tài khoản
+    public void updateUser(User user) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("passWord", user.getPassWord());
+        sqLiteDatabase.update("User",contentValues,"id="+user.getId(),null);
         sqLiteDatabase.close();
     }
 

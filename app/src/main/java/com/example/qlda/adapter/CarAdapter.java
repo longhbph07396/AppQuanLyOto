@@ -34,7 +34,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarHolder> {
     @Override
     public CarHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.recycle_car, parent, false);
-        carsFVRT = m4_homeActivity.sqLiteOpenHelper.getAllCarFavourite(1);
+        carsFVRT = m4_homeActivity.sqLiteOpenHelper.getAllCarFavourite(m4_homeActivity.idUser);
         return new CarHolder(view);
     }
 

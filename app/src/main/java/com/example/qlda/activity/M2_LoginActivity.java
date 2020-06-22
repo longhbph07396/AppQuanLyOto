@@ -71,6 +71,7 @@ public class M2_LoginActivity extends BaseActivity {
             Intent intent=new Intent(M2_LoginActivity.this,M4_HomeActivity.class);
             intent.putExtra("idUser",users.get(index).getId());
             startActivity(intent);
+            finish();
         } else {
             sendMess(this, "Sai tên đăng nhập hoặc mật khẩu.");
         }

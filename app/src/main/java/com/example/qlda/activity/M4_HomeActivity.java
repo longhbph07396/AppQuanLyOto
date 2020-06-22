@@ -16,6 +16,7 @@ import com.example.qlda.fragment.FavouriteFragment;
 import com.example.qlda.fragment.HomeFragment;
 import com.example.qlda.fragment.ProfileFragment;
 import com.example.qlda.model.Car;
+import com.example.qlda.model.User;
 import com.example.qlda.sql.SQLiteOpenHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -28,21 +29,36 @@ public class M4_HomeActivity extends AppCompatActivity {
     public Car car;
     public SQLiteOpenHelper sqLiteOpenHelper;
     public int idUser;
+    private long timeBack;
+    public User userCusor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_m4__home);
-            anhXa();
-            idUser=getIntent().getIntExtra("idUser",-1);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameBottomNavigation, new HomeFragment()).commit();
-        bottomNavigationView.setOnNavigationItemSelectedListener(selectedListener);
-
+        anhXa();
         //Khởi tạo database
         sqLiteOpenHelper = new SQLiteOpenHelper(this);
         sqLiteOpenHelper.createDataBase();
+        idUser = getIntent().getIntExtra("idUser", -1);
+        userCusor = sqLiteOpenHelper.getUser(idUser);
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameBottomNavigation, new HomeFragment()).commit();
+        bottomNavigationView.setOnNavigationItemSelectedListener(selectedListener);
+
 
         //Lấy về danh sách ô tô
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - timeBack < 2000) {
+            finish();
+            System.exit(0);
+        } else {
+            Toast.makeText(this, "Nhấn lần nữa để thoát!", Toast.LENGTH_SHORT).show();
+            timeBack = System.currentTimeMillis();
+        }
     }
 
     public void ganAnh(List<Car> cars) {
@@ -169,7 +185,7 @@ public class M4_HomeActivity extends AppCompatActivity {
     }
 
 
-    private void anhXa()   {
+    private void anhXa() {
         bottomNavigationView = findViewById(R.id.botomNavigation);
     }
 
@@ -182,14 +198,12 @@ public class M4_HomeActivity extends AppCompatActivity {
                     break;
                 case R.id.item_call:
                     fragment = new CallFragment();
-                    Toast.makeText(M4_HomeActivity.this, "Call", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.item_favourite:
                     fragment = new FavouriteFragment();
                     break;
                 case R.id.item_profile:
                     fragment = new ProfileFragment();
-                    Toast.makeText(M4_HomeActivity.this, "Profile", Toast.LENGTH_SHORT).show();
                     break;
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.frameBottomNavigation, fragment).commit();
