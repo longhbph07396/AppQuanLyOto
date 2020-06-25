@@ -139,6 +139,19 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
+    //Thêm xe mới
+    public void insertUser(Car car) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("namSX", car.getNamSX());
+        contentValues.put("anh", -1);
+        contentValues.put("gia", car.getGia());
+        contentValues.put("tenXe", car.getTenXe());
+        contentValues.put("thongSo", car.getThongSo());
+        sqLiteDatabase.insert("Car", null, contentValues);
+        sqLiteDatabase.close();
+    }
+
 
     //Đổi mật khẩu tài khoản
     public void updateUser(User user) {

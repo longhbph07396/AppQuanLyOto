@@ -58,6 +58,7 @@ public class M2_LoginActivity extends BaseActivity {
     }
 
     public void btnDangNhapClick(View view) {
+        boolean isAdmin;
         if (edtUserName.getText().toString().length() < 10 || edtUserName.getText().toString().length() > 11) {
             sendMess(this, "Số điện thoại phải từ 10 - 11 ký tự.");
             return;
@@ -68,8 +69,14 @@ public class M2_LoginActivity extends BaseActivity {
         }
         int index=users.indexOf(new User(edtUserName.getText().toString(), edtPass.getText().toString()));
         if (index>=0&&users.get(index).getPassWord().equals(edtPass.getText().toString())) {
+            if (edtUserName.getText().toString().equals("0362564440")){
+                isAdmin=true;
+            }else {
+                isAdmin=false;
+            }
             Intent intent=new Intent(M2_LoginActivity.this,M4_HomeActivity.class);
             intent.putExtra("idUser",users.get(index).getId());
+            intent.putExtra("isAdmin",isAdmin);
             startActivity(intent);
             finish();
         } else {

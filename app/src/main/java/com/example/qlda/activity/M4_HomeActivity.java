@@ -7,11 +7,13 @@ import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.qlda.R;
 import com.example.qlda.fragment.CallFragment;
+import com.example.qlda.fragment.CarManager;
 import com.example.qlda.fragment.FavouriteFragment;
 import com.example.qlda.fragment.HomeFragment;
 import com.example.qlda.fragment.ProfileFragment;
@@ -31,6 +33,7 @@ public class M4_HomeActivity extends AppCompatActivity {
     public int idUser;
     private long timeBack;
     public User userCusor;
+    public boolean isAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,11 @@ public class M4_HomeActivity extends AppCompatActivity {
         idUser = getIntent().getIntExtra("idUser", -1);
         userCusor = sqLiteOpenHelper.getUser(idUser);
         getSupportFragmentManager().beginTransaction().replace(R.id.frameBottomNavigation, new HomeFragment()).commit();
+        if (isAdmin) {
+            bottomNavigationView.inflateMenu(R.menu.bottom_navigation_menu_admin);
+        } else {
+            bottomNavigationView.inflateMenu(R.menu.bottom_navigation_menu);
+        }
         bottomNavigationView.setOnNavigationItemSelectedListener(selectedListener);
 
 
@@ -187,11 +195,13 @@ public class M4_HomeActivity extends AppCompatActivity {
 
     private void anhXa() {
         bottomNavigationView = findViewById(R.id.botomNavigation);
+        isAdmin = getIntent().getBooleanExtra("isAdmin", false);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener selectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            fragment = new HomeFragment();
             switch (menuItem.getItemId()) {
                 case R.id.item_home:
                     fragment = new HomeFragment();
@@ -204,6 +214,9 @@ public class M4_HomeActivity extends AppCompatActivity {
                     break;
                 case R.id.item_profile:
                     fragment = new ProfileFragment();
+                    break;
+                case R.id.car_manager:
+                    fragment=new CarManager();
                     break;
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.frameBottomNavigation, fragment).commit();
